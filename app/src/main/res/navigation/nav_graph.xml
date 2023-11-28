@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nagivation"
+    app:startDestination="@id/listsFragment">
+
+    <fragment
+        android:id="@+id/shoppingListFragment"
+        android:name="farkhat.myrzabekov.homework_room.presentation.ui.ShoppingListFragment"
+        android:label="fragment_shopping_list"
+        tools:layout="@layout/fragment_shopping_list" >
+        <argument
+            android:name="listId"
+            app:argType="long"/>
+    </fragment>
+    <fragment
+        android:id="@+id/listsFragment"
+        android:name="farkhat.myrzabekov.homework_room.presentation.ui.ListsFragment"
+        android:label="fragment_lists"
+        tools:layout="@layout/fragment_lists" >
+        <action
+            android:id="@+id/action_listsFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
+    </fragment>
+</navigation>
