@@ -11,4 +11,6 @@ interface ShoppingRepository {
     suspend fun updateShoppingItemCompletion(item: ShoppingItemEntity)
     suspend fun insertShoppingItem(shoppingItem: ShoppingItemEntity)
     fun getCompletedItemCount(listId: Long): Flow<Int>
+    suspend fun deleteShoppingList(shoppingList: ShoppingListEntity)
+    suspend fun duplicateShoppingList(listId: Long)
 }

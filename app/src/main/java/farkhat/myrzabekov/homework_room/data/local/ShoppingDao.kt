@@ -1,9 +1,11 @@
 package farkhat.myrzabekov.homework_room.data.local
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import farkhat.myrzabekov.homework_room.data.local.entity.ShoppingItemEntity
 import farkhat.myrzabekov.homework_room.data.local.entity.ShoppingListEntity
@@ -15,7 +17,7 @@ interface ShoppingDao {
     fun getShoppingLists(): Flow<List<ShoppingListEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertShoppingList(shoppingList: ShoppingListEntity)
+    suspend fun insertShoppingList(shoppingList: ShoppingListEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertShoppingItem(shoppingItem: ShoppingItemEntity)
@@ -28,4 +30,16 @@ interface ShoppingDao {
 
     @Query("SELECT COUNT(*) FROM ShoppingItemEntity WHERE listId = :listId AND isCompleted = 1")
     fun getCompletedItemCount(listId: Long): Flow<Int>
+
+    @Delete
+    suspend fun deleteShoppingList(shoppingList: ShoppingListEntity)
+
+    @Query("SELECT * FROM ShoppingListEntity WHERE id = :listId")
+    fun getShoppingListById(listId: Long): Flow<ShoppingListEntity>
+
+    @Query("SELECT * FROM ShoppingItemEntity WHERE listId = :listId")
+    fun getShoppingItemsById(listId: Long): List<ShoppingItemEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertShoppingItems(items: List<ShoppingItemEntity>)
 }

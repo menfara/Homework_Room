@@ -15,7 +15,9 @@ class ShoppingListViewModel @Inject constructor(
     private val getShoppingItemsUseCase: GetShoppingItemsUseCase,
     private val getShoppingListsUseCase: GetShoppingListsUseCase,
     private val insertShoppingItemUseCase: InsertShoppingItemUseCase,
-    private val markItemAsCompletedUseCase: MarkItemAsCompletedUseCase
+    private val markItemAsCompletedUseCase: MarkItemAsCompletedUseCase,
+    private val deleteShoppingListUseCase: DeleteShoppingListUseCase,
+    private val duplicateShoppingListUseCase: DuplicateShoppingListUseCase,
 ) : ViewModel() {
 
     val shoppingLists: LiveData<List<ShoppingListEntity>> = getShoppingListsUseCase.execute()
@@ -55,4 +57,17 @@ class ShoppingListViewModel @Inject constructor(
     fun getCompletedItemCount(listId: Long): LiveData<Int> {
         return getCompletedItemCountUseCase.execute(listId).asLiveData(viewModelScope.coroutineContext)
     }
+
+    fun deleteShoppingList(shoppingList: ShoppingListEntity) {
+        viewModelScope.launch {
+            deleteShoppingListUseCase.execute(shoppingList)
+        }
+    }
+
+    fun duplicateShoppingList(listId: Long) {
+        viewModelScope.launch {
+            duplicateShoppingListUseCase(listId)
+        }
+    }
+
 }

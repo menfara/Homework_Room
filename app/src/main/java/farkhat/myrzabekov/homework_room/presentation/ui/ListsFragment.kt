@@ -55,10 +55,10 @@ class ListsFragment : Fragment() {
                 navigateToShoppingListDetails(selectedList.id)
             },
             onDuplicateClick = { selectedList ->
-                // Handle duplicate action
+                viewModel.duplicateShoppingList(selectedList.id)
             },
             onHideClick = { selectedList ->
-                // Handle hide action
+                viewModel.deleteShoppingList(selectedList)
             },
             getCompletedItemCount = { listId ->
                 viewModel.getCompletedItemCount(listId)

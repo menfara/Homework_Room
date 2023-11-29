@@ -7,23 +7,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import farkhat.myrzabekov.homework_room.data.local.ShoppingDao
 import farkhat.myrzabekov.homework_room.data.local.ShoppingDatabase
 import farkhat.myrzabekov.homework_room.domain.repository.ShoppingRepository
 import farkhat.myrzabekov.homework_room.data.repository.ShoppingRepositoryImpl
-import farkhat.myrzabekov.homework_room.domain.usecase.AddShoppingListUseCase
-import farkhat.myrzabekov.homework_room.domain.usecase.AddShoppingListUseCaseImpl
-import farkhat.myrzabekov.homework_room.domain.usecase.GetCompletedItemCountUseCase
-import farkhat.myrzabekov.homework_room.domain.usecase.GetCompletedItemCountUseCaseImpl
-import farkhat.myrzabekov.homework_room.domain.usecase.GetShoppingItemsUseCase
-import farkhat.myrzabekov.homework_room.domain.usecase.GetShoppingItemsUseCaseImpl
-import farkhat.myrzabekov.homework_room.domain.usecase.GetShoppingListsUseCase
-import farkhat.myrzabekov.homework_room.domain.usecase.GetShoppingListsUseCaseImpl
-import farkhat.myrzabekov.homework_room.domain.usecase.InsertShoppingItemUseCase
-import farkhat.myrzabekov.homework_room.domain.usecase.InsertShoppingItemUseCaseImpl
-import farkhat.myrzabekov.homework_room.domain.usecase.MarkItemAsCompletedUseCase
-import farkhat.myrzabekov.homework_room.domain.usecase.MarkItemAsCompletedUseCaseImpl
+import farkhat.myrzabekov.homework_room.domain.usecase.*
 import javax.inject.Singleton
 
 @Module
@@ -86,5 +76,16 @@ object AppModule {
     @Singleton
     fun provideMarkItemAsCompletedUseCase(shoppingRepository: ShoppingRepository): MarkItemAsCompletedUseCase {
         return MarkItemAsCompletedUseCaseImpl(shoppingRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteShoppingListUseCase(repository: ShoppingRepository): DeleteShoppingListUseCase {
+        return DeleteShoppingListUseCaseImpl(repository)
+    }
+    @Provides
+    @Singleton
+    fun provideDuplicateShoppingListUseCase(repository: ShoppingRepository): DuplicateShoppingListUseCase {
+        return DuplicateShoppingListUseCaseImpl(repository)
     }
 }
