@@ -8,12 +8,14 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.viewModels
@@ -52,10 +54,34 @@ class ShoppingListFragment : Fragment() {
         viewModel.shoppingItems.observe(viewLifecycleOwner) { items ->
             shoppingListAdapter.submitList(items)
             updateProgress(items)
+            updateEmptyState(items)
+            updateAddItemButtonGravity(items)
         }
 
         binding.addItemButton.setOnClickListener {
             showAddItemDialog()
+        }
+    }
+
+    private fun updateAddItemButtonGravity(items: List<ShoppingItemEntity>) {
+        val layoutParams = binding.addItemButton.layoutParams as LinearLayout.LayoutParams
+
+        if (items.isEmpty()) {
+            layoutParams.gravity = Gravity.CENTER
+        } else {
+            layoutParams.gravity = Gravity.END
+        }
+
+        binding.addItemButton.layoutParams = layoutParams
+    }
+
+    private fun updateEmptyState(items: List<ShoppingItemEntity>) {
+        if (items.isEmpty()) {
+            binding.emptyImageView.visibility = View.VISIBLE
+            binding.emptyTextView.visibility = View.VISIBLE
+        } else {
+            binding.emptyImageView.visibility = View.GONE
+            binding.emptyTextView.visibility = View.GONE
         }
     }
 
